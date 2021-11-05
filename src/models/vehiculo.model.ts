@@ -1,4 +1,6 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository';
+import {Asesor} from './asesor.model';
+import {Solicitud} from './solicitud.model';
 
 @model()
 export class Vehiculo extends Entity {
@@ -56,19 +58,17 @@ export class Vehiculo extends Entity {
     required: true,
   })
   id_Ciudad: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  id_Asesor: string;
-
   @property({
     type: 'string',
     required: true,
   })
   Imagen: string;
 
+  @belongsTo(() => Asesor, {name: 'asesor'})
+  id_Asesor: string;
+
+  @hasMany(() => Solicitud, {keyTo: 'id_Vehiculo'})
+  solicitud: Solicitud[];
 
   constructor(data?: Partial<Vehiculo>) {
     super(data);

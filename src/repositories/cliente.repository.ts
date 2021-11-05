@@ -1,5 +1,5 @@
 import {Getter, inject} from '@loopback/core';
-import {DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
+import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
 import {Cliente, ClienteRelations, Solicitud} from '../models';
 import {CiudadRepository} from './ciudad.repository';
@@ -11,16 +11,16 @@ export class ClienteRepository extends DefaultCrudRepository<
   ClienteRelations
 > {
 
-  public readonly solicituds: HasManyRepositoryFactory<Solicitud, typeof Cliente.prototype.Id>;
-
-
+  public readonly solicitud: HasManyRepositoryFactory<Solicitud, typeof Cliente.prototype.Id>;
 
   constructor(
     @inject('datasources.mongodb') dataSource: MongodbDataSource, @repository.getter('SolicitudRepository') protected solicitudRepositoryGetter: Getter<SolicitudRepository>, @repository.getter('CiudadRepository') protected ciudadRepositoryGetter: Getter<CiudadRepository>,
   ) {
     super(Cliente, dataSource);
+    this.solicitud = this.createHasManyRepositoryFactoryFor('solicitud', solicitudRepositoryGetter,);
+    this.registerInclusionResolver('solicitud', this.solicitud.inclusionResolver);
 
-    this.solicituds = this.createHasManyRepositoryFactoryFor('solicituds', solicitudRepositoryGetter,);
-    this.registerInclusionResolver('solicituds', this.solicituds.inclusionResolver);
+
+
   }
 }
