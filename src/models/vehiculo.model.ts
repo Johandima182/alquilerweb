@@ -63,6 +63,12 @@ export class Vehiculo extends Entity {
   })
   id_Asesor: string;
 
+  @property({
+    type: 'string',
+    required: true,
+  })
+  Imagen: string;
+
 
   constructor(data?: Partial<Vehiculo>) {
     super(data);
