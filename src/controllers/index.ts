@@ -20,3 +20,10 @@ export * from './solicitud-vehiculo.controller';
 export * from './vehiculo-asesor.controller';
 export * from './vehiculo-solicitud.controller';
 
+export * from './cliente.controller';
+export * from './ciudad.controller';
+export * from './departamento.controller';
+export * from './vehiculo.controller';
+export * from './asesor.controller';
+export * from './administrador.controller';
+export * from './solicitud.controller';
