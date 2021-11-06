@@ -5,3 +5,4 @@ export * from './vehiculo.model';
 export * from './solicitud.model';
 export * from './administrador.model';
 export * from './asesor.model';
+export * from './m-contacto.model';

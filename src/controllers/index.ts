@@ -27,3 +27,4 @@ export * from './vehiculo.controller';
 export * from './asesor.controller';
 export * from './administrador.controller';
 export * from './solicitud.controller';
+export * from './m-contacto.controller';
