@@ -13,7 +13,13 @@ export class MContacto extends Entity {
     type: 'string',
     required: true,
   })
-  Nombre: string;
+  Nombres: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  Apellidos: string;
 
   @property({
     type: 'string',
@@ -26,6 +32,24 @@ export class MContacto extends Entity {
     required: true,
   })
   CorreoDes: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  Mensaje: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  Asunto: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  id_Administrador: string;
 
 
   constructor(data?: Partial<MContacto>) {

@@ -1,10 +1,8 @@
-import {Entity, hasMany, model, property} from '@loopback/repository';
-import {Asesor} from './asesor.model';
-import {MContacto} from './m-contacto.model';
-import {TipoVehiculo} from './tipo-vehiculo.model';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {Ciudad} from './ciudad.model';
 
 @model()
-export class Administrador extends Entity {
+export class Persona extends Entity {
   @property({
     type: 'string',
     id: true,
@@ -66,34 +64,16 @@ export class Administrador extends Entity {
   })
   Clave: string;
 
-  @property({
-    type: 'string',
-    required: true,
-  })
-  id_Departamento: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
+  @belongsTo(() => Ciudad, {name: 'ciudad'})
   id_Ciudad: string;
 
-  @hasMany(() => Asesor, {keyTo: 'id_Administador'})
-  asesors: Asesor[];
-
-  @hasMany(() => TipoVehiculo, {keyTo: 'id_Administrador'})
-  tipoVehiculos: TipoVehiculo[];
-
-  @hasMany(() => MContacto, {keyTo: 'id_Administrador'})
-  mContactos: MContacto[];
-
-  constructor(data?: Partial<Administrador>) {
+  constructor(data?: Partial<Persona>) {
     super(data);
   }
 }
 
-export interface AdministradorRelations {
+export interface PersonaRelations {
   // describe navigational properties here
 }
 
-export type AdministradorWithRelations = Administrador & AdministradorRelations;
+export type PersonaWithRelations = Persona & PersonaRelations;
