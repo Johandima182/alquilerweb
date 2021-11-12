@@ -6,3 +6,4 @@ export * from './departamento.repository';
 export * from './solicitud.repository';
 export * from './vehiculo.repository';
 export * from './m-contacto.repository';
+export * from './sede.repository';

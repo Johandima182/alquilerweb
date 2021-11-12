@@ -6,3 +6,4 @@ export * from './solicitud.model';
 export * from './administrador.model';
 export * from './asesor.model';
 export * from './m-contacto.model';
+export * from './sede.model';

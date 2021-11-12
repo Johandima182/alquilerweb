@@ -28,3 +28,7 @@ export * from './asesor.controller';
 export * from './administrador.controller';
 export * from './solicitud.controller';
 export * from './m-contacto.controller';
+export * from './sede-ciudad.controller';
+export * from './ciudad-sede.controller';
+export * from './vehiculo-sede.controller';
+export * from './sede-vehiculo.controller';

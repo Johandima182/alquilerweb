@@ -1,6 +1,7 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {Asesor} from './asesor.model';
 import {Solicitud} from './solicitud.model';
+import {Sede} from './sede.model';
 
 @model()
 export class Vehiculo extends Entity {
@@ -46,18 +47,6 @@ export class Vehiculo extends Entity {
     required: true,
   })
   ValorDia: number;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  id_Departamento: string;
-
-  @property({
-    type: 'string',
-    required: true,
-  })
-  id_Ciudad: string;
   @property({
     type: 'string',
     required: true,
@@ -70,11 +59,16 @@ export class Vehiculo extends Entity {
   })
   Descripcion: string;
 
+
+
   @belongsTo(() => Asesor, {name: 'asesor'})
   id_Asesor: string;
 
   @hasMany(() => Solicitud, {keyTo: 'id_Vehiculo'})
   solicitud: Solicitud[];
+
+  @belongsTo(() => Sede, {name: 'sede'})
+  id_Sede: string;
 
   constructor(data?: Partial<Vehiculo>) {
     super(data);

@@ -1,12 +1,13 @@
 import {Getter, inject} from '@loopback/core';
 import {DefaultCrudRepository, repository, HasOneRepositoryFactory, HasManyRepositoryFactory, BelongsToAccessor} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
-import {Ciudad, CiudadRelations, Cliente, Departamento, Asesor, Vehiculo, Administrador} from '../models';
+import {Ciudad, CiudadRelations, Cliente, Departamento, Asesor, Vehiculo, Administrador, Sede} from '../models';
 import {ClienteRepository} from './cliente.repository';
 import {DepartamentoRepository} from './departamento.repository';
 import {AsesorRepository} from './asesor.repository';
 import {VehiculoRepository} from './vehiculo.repository';
 import {AdministradorRepository} from './administrador.repository';
+import {SedeRepository} from './sede.repository';
 
 export class CiudadRepository extends DefaultCrudRepository<
   Ciudad,
@@ -26,10 +27,14 @@ export class CiudadRepository extends DefaultCrudRepository<
 
   public readonly departamento: BelongsToAccessor<Departamento, typeof Ciudad.prototype.Id>;
 
+  public readonly sedes: HasManyRepositoryFactory<Sede, typeof Ciudad.prototype.Id>;
+
   constructor(
-    @inject('datasources.mongodb') dataSource: MongodbDataSource, @repository.getter('ClienteRepository') protected clienteRepositoryGetter: Getter<ClienteRepository>, @repository.getter('DepartamentoRepository') protected departamentoRepositoryGetter: Getter<DepartamentoRepository>, @repository.getter('AsesorRepository') protected asesorRepositoryGetter: Getter<AsesorRepository>, @repository.getter('VehiculoRepository') protected vehiculoRepositoryGetter: Getter<VehiculoRepository>, @repository.getter('AdministradorRepository') protected administradorRepositoryGetter: Getter<AdministradorRepository>,
+    @inject('datasources.mongodb') dataSource: MongodbDataSource, @repository.getter('ClienteRepository') protected clienteRepositoryGetter: Getter<ClienteRepository>, @repository.getter('DepartamentoRepository') protected departamentoRepositoryGetter: Getter<DepartamentoRepository>, @repository.getter('AsesorRepository') protected asesorRepositoryGetter: Getter<AsesorRepository>, @repository.getter('VehiculoRepository') protected vehiculoRepositoryGetter: Getter<VehiculoRepository>, @repository.getter('AdministradorRepository') protected administradorRepositoryGetter: Getter<AdministradorRepository>, @repository.getter('SedeRepository') protected sedeRepositoryGetter: Getter<SedeRepository>,
   ) {
     super(Ciudad, dataSource);
+    this.sedes = this.createHasManyRepositoryFactoryFor('sedes', sedeRepositoryGetter,);
+    this.registerInclusionResolver('sedes', this.sedes.inclusionResolver);
     this.departamento = this.createBelongsToAccessorFor('departamento', departamentoRepositoryGetter,);
     this.registerInclusionResolver('departamento', this.departamento.inclusionResolver);
     this.administrador = this.createHasOneRepositoryFactoryFor('administrador', administradorRepositoryGetter);
