@@ -32,3 +32,5 @@ export * from './sede-ciudad.controller';
 export * from './ciudad-sede.controller';
 export * from './vehiculo-sede.controller';
 export * from './sede-vehiculo.controller';
+export * from './tipo-vehiculo-administrador.controller';
+export * from './administrador-tipo-vehiculo.controller';
