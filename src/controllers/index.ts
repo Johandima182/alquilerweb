@@ -34,3 +34,6 @@ export * from './administrador-persona.controller';
 export * from './persona-administrador.controller';
 export * from './asesor-persona.controller';
 export * from './persona-asesor.controller';
+export * from './persona.controller';
+export * from './tipo-vehiculo.controller';
+export * from './sede.controller';
