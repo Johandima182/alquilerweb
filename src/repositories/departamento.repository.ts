@@ -1,12 +1,12 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, HasOneRepositoryFactory, BelongsToAccessor, HasManyRepositoryFactory} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
-import {Departamento, DepartamentoRelations, Cliente, Ciudad, Asesor, Vehiculo, Administrador} from '../models';
-import {ClienteRepository} from './cliente.repository';
-import {CiudadRepository} from './ciudad.repository';
-import {AsesorRepository} from './asesor.repository';
-import {VehiculoRepository} from './vehiculo.repository';
+import {Ciudad, Departamento, DepartamentoRelations} from '../models';
 import {AdministradorRepository} from './administrador.repository';
+import {AsesorRepository} from './asesor.repository';
+import {CiudadRepository} from './ciudad.repository';
+import {ClienteRepository} from './cliente.repository';
+import {VehiculoRepository} from './vehiculo.repository';
 
 export class DepartamentoRepository extends DefaultCrudRepository<
   Departamento,
@@ -14,15 +14,9 @@ export class DepartamentoRepository extends DefaultCrudRepository<
   DepartamentoRelations
 > {
 
-  public readonly cliente: HasOneRepositoryFactory<Cliente, typeof Departamento.prototype.Id>;
+
 
   public readonly ciudad: BelongsToAccessor<Ciudad, typeof Departamento.prototype.Id>;
-
-  public readonly asesor: HasOneRepositoryFactory<Asesor, typeof Departamento.prototype.Id>;
-
-  public readonly vehiculo: HasOneRepositoryFactory<Vehiculo, typeof Departamento.prototype.Id>;
-
-  public readonly administrador: HasOneRepositoryFactory<Administrador, typeof Departamento.prototype.Id>;
 
   public readonly ciudads: HasManyRepositoryFactory<Ciudad, typeof Departamento.prototype.Id>;
 
@@ -32,15 +26,7 @@ export class DepartamentoRepository extends DefaultCrudRepository<
     super(Departamento, dataSource);
     this.ciudads = this.createHasManyRepositoryFactoryFor('ciudads', ciudadRepositoryGetter,);
     this.registerInclusionResolver('ciudads', this.ciudads.inclusionResolver);
-    this.administrador = this.createHasOneRepositoryFactoryFor('administrador', administradorRepositoryGetter);
-    this.registerInclusionResolver('administrador', this.administrador.inclusionResolver);
-    this.vehiculo = this.createHasOneRepositoryFactoryFor('vehiculo', vehiculoRepositoryGetter);
-    this.registerInclusionResolver('vehiculo', this.vehiculo.inclusionResolver);
-    this.asesor = this.createHasOneRepositoryFactoryFor('asesor', asesorRepositoryGetter);
-    this.registerInclusionResolver('asesor', this.asesor.inclusionResolver);
     this.ciudad = this.createBelongsToAccessorFor('ciudad', ciudadRepositoryGetter,);
     this.registerInclusionResolver('ciudad', this.ciudad.inclusionResolver);
-    this.cliente = this.createHasOneRepositoryFactoryFor('cliente', clienteRepositoryGetter);
-    this.registerInclusionResolver('cliente', this.cliente.inclusionResolver);
   }
 }

@@ -1,7 +1,7 @@
-import {Entity, model, property, belongsTo} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {Asesor} from './asesor.model';
 import {Cliente} from './cliente.model';
 import {Vehiculo} from './vehiculo.model';
-import {Asesor} from './asesor.model';
 
 @model()
 export class Solicitud extends Entity {
@@ -21,7 +21,31 @@ export class Solicitud extends Entity {
     type: 'date',
     required: true,
   })
-  Fecha: string;
+  Fecha_Solicitud: string;
+
+  @property({
+    type: 'date',
+    required: true,
+  })
+  Fecha_Recogida: string;
+
+  @property({
+    type: 'date',
+    required: true,
+  })
+  Fecha_Entrega: string;
+
+  @property({
+    type: 'date',
+    required: true,
+  })
+  Hora_Recogida: string;
+
+  @property({
+    type: 'date',
+    required: true,
+  })
+  Hora_Entrega: string;
 
   @property({
     type: 'number',

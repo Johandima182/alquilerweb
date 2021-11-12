@@ -1,10 +1,11 @@
 import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
+import {DefaultCrudRepository, repository, HasManyRepositoryFactory, BelongsToAccessor} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
-import {Administrador, AdministradorRelations, Asesor, TipoVehiculo, MContacto} from '../models';
+import {Administrador, AdministradorRelations, Asesor, TipoVehiculo, MContacto, Persona} from '../models';
 import {AsesorRepository} from './asesor.repository';
 import {TipoVehiculoRepository} from './tipo-vehiculo.repository';
 import {MContactoRepository} from './m-contacto.repository';
+import {PersonaRepository} from './persona.repository';
 
 export class AdministradorRepository extends DefaultCrudRepository<
   Administrador,
@@ -18,10 +19,14 @@ export class AdministradorRepository extends DefaultCrudRepository<
 
   public readonly mContactos: HasManyRepositoryFactory<MContacto, typeof Administrador.prototype.Id>;
 
+  public readonly persona: BelongsToAccessor<Persona, typeof Administrador.prototype.Id>;
+
   constructor(
-    @inject('datasources.mongodb') dataSource: MongodbDataSource, @repository.getter('AsesorRepository') protected asesorRepositoryGetter: Getter<AsesorRepository>, @repository.getter('TipoVehiculoRepository') protected tipoVehiculoRepositoryGetter: Getter<TipoVehiculoRepository>, @repository.getter('MContactoRepository') protected mContactoRepositoryGetter: Getter<MContactoRepository>,
+    @inject('datasources.mongodb') dataSource: MongodbDataSource, @repository.getter('AsesorRepository') protected asesorRepositoryGetter: Getter<AsesorRepository>, @repository.getter('TipoVehiculoRepository') protected tipoVehiculoRepositoryGetter: Getter<TipoVehiculoRepository>, @repository.getter('MContactoRepository') protected mContactoRepositoryGetter: Getter<MContactoRepository>, @repository.getter('PersonaRepository') protected personaRepositoryGetter: Getter<PersonaRepository>,
   ) {
     super(Administrador, dataSource);
+    this.persona = this.createBelongsToAccessorFor('persona', personaRepositoryGetter,);
+    this.registerInclusionResolver('persona', this.persona.inclusionResolver);
     this.mContactos = this.createHasManyRepositoryFactoryFor('mContactos', mContactoRepositoryGetter,);
     this.registerInclusionResolver('mContactos', this.mContactos.inclusionResolver);
     this.tipoVehiculos = this.createHasManyRepositoryFactoryFor('tipoVehiculos', tipoVehiculoRepositoryGetter,);

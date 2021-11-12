@@ -16,64 +16,64 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {
-  Ciudad,
+  Persona,
   Administrador,
 } from '../models';
-import {CiudadRepository} from '../repositories';
+import {PersonaRepository} from '../repositories';
 
-export class CiudadAdministradorController {
+export class PersonaAdministradorController {
   constructor(
-    @repository(CiudadRepository) protected ciudadRepository: CiudadRepository,
+    @repository(PersonaRepository) protected personaRepository: PersonaRepository,
   ) { }
 
-  @get('/ciudads/{id}/administrador', {
+  @get('/personas/{id}/administradors', {
     responses: {
       '200': {
-        description: 'Ciudad has one Administrador',
+        description: 'Array of Persona has many Administrador',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(Administrador),
+            schema: {type: 'array', items: getModelSchemaRef(Administrador)},
           },
         },
       },
     },
   })
-  async get(
+  async find(
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<Administrador>,
-  ): Promise<Administrador> {
-    return this.ciudadRepository.administrador(id).get(filter);
+  ): Promise<Administrador[]> {
+    return this.personaRepository.administradors(id).find(filter);
   }
 
-  @post('/ciudads/{id}/administrador', {
+  @post('/personas/{id}/administradors', {
     responses: {
       '200': {
-        description: 'Ciudad model instance',
+        description: 'Persona model instance',
         content: {'application/json': {schema: getModelSchemaRef(Administrador)}},
       },
     },
   })
   async create(
-    @param.path.string('id') id: typeof Ciudad.prototype.Id,
+    @param.path.string('id') id: typeof Persona.prototype.Id,
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(Administrador, {
-            title: 'NewAdministradorInCiudad',
+            title: 'NewAdministradorInPersona',
             exclude: ['Id'],
-            optional: ['id_Ciudad']
+            optional: ['id_Persona']
           }),
         },
       },
     }) administrador: Omit<Administrador, 'Id'>,
   ): Promise<Administrador> {
-    return this.ciudadRepository.administrador(id).create(administrador);
+    return this.personaRepository.administradors(id).create(administrador);
   }
 
-  @patch('/ciudads/{id}/administrador', {
+  @patch('/personas/{id}/administradors', {
     responses: {
       '200': {
-        description: 'Ciudad.Administrador PATCH success count',
+        description: 'Persona.Administrador PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -90,13 +90,13 @@ export class CiudadAdministradorController {
     administrador: Partial<Administrador>,
     @param.query.object('where', getWhereSchemaFor(Administrador)) where?: Where<Administrador>,
   ): Promise<Count> {
-    return this.ciudadRepository.administrador(id).patch(administrador, where);
+    return this.personaRepository.administradors(id).patch(administrador, where);
   }
 
-  @del('/ciudads/{id}/administrador', {
+  @del('/personas/{id}/administradors', {
     responses: {
       '200': {
-        description: 'Ciudad.Administrador DELETE success count',
+        description: 'Persona.Administrador DELETE success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -105,6 +105,6 @@ export class CiudadAdministradorController {
     @param.path.string('id') id: string,
     @param.query.object('where', getWhereSchemaFor(Administrador)) where?: Where<Administrador>,
   ): Promise<Count> {
-    return this.ciudadRepository.administrador(id).delete(where);
+    return this.personaRepository.administradors(id).delete(where);
   }
 }
