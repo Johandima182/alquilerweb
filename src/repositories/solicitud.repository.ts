@@ -1,4 +1,4 @@
-import {Getter, inject} from '@loopback/core';
+import {inject, Getter} from '@loopback/core';
 import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
 import {Solicitud, SolicitudRelations, Cliente, Vehiculo, Asesor} from '../models';
@@ -28,6 +28,5 @@ export class SolicitudRepository extends DefaultCrudRepository<
     this.registerInclusionResolver('vehiculo', this.vehiculo.inclusionResolver);
     this.cliente = this.createBelongsToAccessorFor('cliente', clienteRepositoryGetter,);
     this.registerInclusionResolver('cliente', this.cliente.inclusionResolver);
-
   }
 }

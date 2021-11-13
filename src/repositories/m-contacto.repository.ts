@@ -1,7 +1,7 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, DefaultCrudRepository, repository} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
-import {MContacto, MContactoRelations, Administrador} from '../models';
+import {Administrador, MContacto, MContactoRelations} from '../models';
 import {AdministradorRepository} from './administrador.repository';
 
 export class MContactoRepository extends DefaultCrudRepository<

@@ -42,7 +42,7 @@ export class VehiculoSolicitudController {
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<Solicitud>,
   ): Promise<Solicitud[]> {
-    return this.vehiculoRepository.solicitud(id).find(filter);
+    return this.vehiculoRepository.solicituds(id).find(filter);
   }
 
   @post('/vehiculos/{id}/solicituds', {
@@ -67,7 +67,7 @@ export class VehiculoSolicitudController {
       },
     }) solicitud: Omit<Solicitud, 'Id'>,
   ): Promise<Solicitud> {
-    return this.vehiculoRepository.solicitud(id).create(solicitud);
+    return this.vehiculoRepository.solicituds(id).create(solicitud);
   }
 
   @patch('/vehiculos/{id}/solicituds', {
@@ -90,7 +90,7 @@ export class VehiculoSolicitudController {
     solicitud: Partial<Solicitud>,
     @param.query.object('where', getWhereSchemaFor(Solicitud)) where?: Where<Solicitud>,
   ): Promise<Count> {
-    return this.vehiculoRepository.solicitud(id).patch(solicitud, where);
+    return this.vehiculoRepository.solicituds(id).patch(solicitud, where);
   }
 
   @del('/vehiculos/{id}/solicituds', {
@@ -105,6 +105,6 @@ export class VehiculoSolicitudController {
     @param.path.string('id') id: string,
     @param.query.object('where', getWhereSchemaFor(Solicitud)) where?: Where<Solicitud>,
   ): Promise<Count> {
-    return this.vehiculoRepository.solicitud(id).delete(where);
+    return this.vehiculoRepository.solicituds(id).delete(where);
   }
 }

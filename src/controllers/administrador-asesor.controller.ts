@@ -61,7 +61,7 @@ export class AdministradorAsesorController {
           schema: getModelSchemaRef(Asesor, {
             title: 'NewAsesorInAdministrador',
             exclude: ['Id'],
-            optional: ['id_Administador']
+            optional: ['id_Administrador']
           }),
         },
       },

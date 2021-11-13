@@ -7,21 +7,21 @@ import {
   getModelSchemaRef,
 } from '@loopback/rest';
 import {
-  Persona,
+  Cliente,
   Ciudad,
 } from '../models';
-import {PersonaRepository} from '../repositories';
+import {ClienteRepository} from '../repositories';
 
-export class PersonaCiudadController {
+export class ClienteCiudadController {
   constructor(
-    @repository(PersonaRepository)
-    public personaRepository: PersonaRepository,
+    @repository(ClienteRepository)
+    public clienteRepository: ClienteRepository,
   ) { }
 
-  @get('/personas/{id}/ciudad', {
+  @get('/clientes/{id}/ciudad', {
     responses: {
       '200': {
-        description: 'Ciudad belonging to Persona',
+        description: 'Ciudad belonging to Cliente',
         content: {
           'application/json': {
             schema: {type: 'array', items: getModelSchemaRef(Ciudad)},
@@ -31,8 +31,8 @@ export class PersonaCiudadController {
     },
   })
   async getCiudad(
-    @param.path.string('id') id: typeof Persona.prototype.Id,
+    @param.path.string('id') id: typeof Cliente.prototype.Id,
   ): Promise<Ciudad> {
-    return this.personaRepository.ciudad(id);
+    return this.clienteRepository.ciudad(id);
   }
 }

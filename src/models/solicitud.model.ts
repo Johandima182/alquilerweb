@@ -1,7 +1,7 @@
-import {belongsTo, Entity, model, property} from '@loopback/repository';
-import {Asesor} from './asesor.model';
+import {Entity, model, property, belongsTo} from '@loopback/repository';
 import {Cliente} from './cliente.model';
 import {Vehiculo} from './vehiculo.model';
+import {Asesor} from './asesor.model';
 
 @model()
 export class Solicitud extends Entity {

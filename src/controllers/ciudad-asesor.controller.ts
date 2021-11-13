@@ -16,20 +16,20 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {
-  Persona,
+  Ciudad,
   Asesor,
 } from '../models';
-import {PersonaRepository} from '../repositories';
+import {CiudadRepository} from '../repositories';
 
-export class PersonaAsesorController {
+export class CiudadAsesorController {
   constructor(
-    @repository(PersonaRepository) protected personaRepository: PersonaRepository,
+    @repository(CiudadRepository) protected ciudadRepository: CiudadRepository,
   ) { }
 
-  @get('/personas/{id}/asesors', {
+  @get('/ciudads/{id}/asesors', {
     responses: {
       '200': {
-        description: 'Array of Persona has many Asesor',
+        description: 'Array of Ciudad has many Asesor',
         content: {
           'application/json': {
             schema: {type: 'array', items: getModelSchemaRef(Asesor)},
@@ -42,38 +42,38 @@ export class PersonaAsesorController {
     @param.path.string('id') id: string,
     @param.query.object('filter') filter?: Filter<Asesor>,
   ): Promise<Asesor[]> {
-    return this.personaRepository.asesors(id).find(filter);
+    return this.ciudadRepository.asesors(id).find(filter);
   }
 
-  @post('/personas/{id}/asesors', {
+  @post('/ciudads/{id}/asesors', {
     responses: {
       '200': {
-        description: 'Persona model instance',
+        description: 'Ciudad model instance',
         content: {'application/json': {schema: getModelSchemaRef(Asesor)}},
       },
     },
   })
   async create(
-    @param.path.string('id') id: typeof Persona.prototype.Id,
+    @param.path.string('id') id: typeof Ciudad.prototype.Id,
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(Asesor, {
-            title: 'NewAsesorInPersona',
+            title: 'NewAsesorInCiudad',
             exclude: ['Id'],
-            optional: ['id_Persona']
+            optional: ['id_Ciudad']
           }),
         },
       },
     }) asesor: Omit<Asesor, 'Id'>,
   ): Promise<Asesor> {
-    return this.personaRepository.asesors(id).create(asesor);
+    return this.ciudadRepository.asesors(id).create(asesor);
   }
 
-  @patch('/personas/{id}/asesors', {
+  @patch('/ciudads/{id}/asesors', {
     responses: {
       '200': {
-        description: 'Persona.Asesor PATCH success count',
+        description: 'Ciudad.Asesor PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -90,13 +90,13 @@ export class PersonaAsesorController {
     asesor: Partial<Asesor>,
     @param.query.object('where', getWhereSchemaFor(Asesor)) where?: Where<Asesor>,
   ): Promise<Count> {
-    return this.personaRepository.asesors(id).patch(asesor, where);
+    return this.ciudadRepository.asesors(id).patch(asesor, where);
   }
 
-  @del('/personas/{id}/asesors', {
+  @del('/ciudads/{id}/asesors', {
     responses: {
       '200': {
-        description: 'Persona.Asesor DELETE success count',
+        description: 'Ciudad.Asesor DELETE success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -105,6 +105,6 @@ export class PersonaAsesorController {
     @param.path.string('id') id: string,
     @param.query.object('where', getWhereSchemaFor(Asesor)) where?: Where<Asesor>,
   ): Promise<Count> {
-    return this.personaRepository.asesors(id).delete(where);
+    return this.ciudadRepository.asesors(id).delete(where);
   }
 }

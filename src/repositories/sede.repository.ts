@@ -1,7 +1,7 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor, HasManyRepositoryFactory} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
-import {Sede, SedeRelations, Ciudad, Vehiculo} from '../models';
+import {Ciudad, Sede, SedeRelations, Vehiculo} from '../models';
 import {CiudadRepository} from './ciudad.repository';
 import {VehiculoRepository} from './vehiculo.repository';
 

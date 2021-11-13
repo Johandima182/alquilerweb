@@ -1,10 +1,19 @@
 import {
+  Count,
+  CountSchema,
+  Filter,
   repository,
+  Where,
 } from '@loopback/repository';
 import {
-  param,
+  del,
   get,
   getModelSchemaRef,
+  getWhereSchemaFor,
+  param,
+  patch,
+  post,
+  requestBody,
 } from '@loopback/rest';
 import {
   TipoVehiculo,
@@ -14,14 +23,13 @@ import {TipoVehiculoRepository} from '../repositories';
 
 export class TipoVehiculoVehiculoController {
   constructor(
-    @repository(TipoVehiculoRepository)
-    public tipoVehiculoRepository: TipoVehiculoRepository,
+    @repository(TipoVehiculoRepository) protected tipoVehiculoRepository: TipoVehiculoRepository,
   ) { }
 
-  @get('/tipo-vehiculos/{id}/vehiculo', {
+  @get('/tipo-vehiculos/{id}/vehiculos', {
     responses: {
       '200': {
-        description: 'Vehiculo belonging to TipoVehiculo',
+        description: 'Array of TipoVehiculo has many Vehiculo',
         content: {
           'application/json': {
             schema: {type: 'array', items: getModelSchemaRef(Vehiculo)},
@@ -30,9 +38,73 @@ export class TipoVehiculoVehiculoController {
       },
     },
   })
-  async getVehiculo(
+  async find(
+    @param.path.string('id') id: string,
+    @param.query.object('filter') filter?: Filter<Vehiculo>,
+  ): Promise<Vehiculo[]> {
+    return this.tipoVehiculoRepository.vehiculos(id).find(filter);
+  }
+
+  @post('/tipo-vehiculos/{id}/vehiculos', {
+    responses: {
+      '200': {
+        description: 'TipoVehiculo model instance',
+        content: {'application/json': {schema: getModelSchemaRef(Vehiculo)}},
+      },
+    },
+  })
+  async create(
     @param.path.string('id') id: typeof TipoVehiculo.prototype.Id,
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Vehiculo, {
+            title: 'NewVehiculoInTipoVehiculo',
+            exclude: ['Id'],
+            optional: ['id_TipoVehiculo']
+          }),
+        },
+      },
+    }) vehiculo: Omit<Vehiculo, 'Id'>,
   ): Promise<Vehiculo> {
-    return this.tipoVehiculoRepository.vehiculo(id);
+    return this.tipoVehiculoRepository.vehiculos(id).create(vehiculo);
+  }
+
+  @patch('/tipo-vehiculos/{id}/vehiculos', {
+    responses: {
+      '200': {
+        description: 'TipoVehiculo.Vehiculo PATCH success count',
+        content: {'application/json': {schema: CountSchema}},
+      },
+    },
+  })
+  async patch(
+    @param.path.string('id') id: string,
+    @requestBody({
+      content: {
+        'application/json': {
+          schema: getModelSchemaRef(Vehiculo, {partial: true}),
+        },
+      },
+    })
+    vehiculo: Partial<Vehiculo>,
+    @param.query.object('where', getWhereSchemaFor(Vehiculo)) where?: Where<Vehiculo>,
+  ): Promise<Count> {
+    return this.tipoVehiculoRepository.vehiculos(id).patch(vehiculo, where);
+  }
+
+  @del('/tipo-vehiculos/{id}/vehiculos', {
+    responses: {
+      '200': {
+        description: 'TipoVehiculo.Vehiculo DELETE success count',
+        content: {'application/json': {schema: CountSchema}},
+      },
+    },
+  })
+  async delete(
+    @param.path.string('id') id: string,
+    @param.query.object('where', getWhereSchemaFor(Vehiculo)) where?: Where<Vehiculo>,
+  ): Promise<Count> {
+    return this.tipoVehiculoRepository.vehiculos(id).delete(where);
   }
 }

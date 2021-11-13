@@ -1,5 +1,5 @@
 import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
+import {DefaultCrudRepository, repository, BelongsToAccessor, HasManyRepositoryFactory} from '@loopback/repository';
 import {MongodbDataSource} from '../datasources';
 import {TipoVehiculo, TipoVehiculoRelations, Administrador, Vehiculo} from '../models';
 import {AdministradorRepository} from './administrador.repository';
@@ -13,14 +13,14 @@ export class TipoVehiculoRepository extends DefaultCrudRepository<
 
   public readonly administrador: BelongsToAccessor<Administrador, typeof TipoVehiculo.prototype.Id>;
 
-  public readonly vehiculo: BelongsToAccessor<Vehiculo, typeof TipoVehiculo.prototype.Id>;
+  public readonly vehiculos: HasManyRepositoryFactory<Vehiculo, typeof TipoVehiculo.prototype.Id>;
 
   constructor(
     @inject('datasources.mongodb') dataSource: MongodbDataSource, @repository.getter('AdministradorRepository') protected administradorRepositoryGetter: Getter<AdministradorRepository>, @repository.getter('VehiculoRepository') protected vehiculoRepositoryGetter: Getter<VehiculoRepository>,
   ) {
     super(TipoVehiculo, dataSource);
-    this.vehiculo = this.createBelongsToAccessorFor('vehiculo', vehiculoRepositoryGetter,);
-    this.registerInclusionResolver('vehiculo', this.vehiculo.inclusionResolver);
+    this.vehiculos = this.createHasManyRepositoryFactoryFor('vehiculos', vehiculoRepositoryGetter,);
+    this.registerInclusionResolver('vehiculos', this.vehiculos.inclusionResolver);
     this.administrador = this.createBelongsToAccessorFor('administrador', administradorRepositoryGetter,);
     this.registerInclusionResolver('administrador', this.administrador.inclusionResolver);
   }
